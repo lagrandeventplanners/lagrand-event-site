@@ -9,22 +9,57 @@ import { COMPANY_NAME, STATS, VALUES } from "@/lib/constants";
 export const metadata: Metadata = {
   title: `About Us | ${COMPANY_NAME} — Hyderabad Event Management`,
   description:
-    "Meet the team behind Hyderabad's most trusted event management company. Learn about our story, values, and why 50+ clients trust us with their most important occasions.",
+    "Meet the team behind Hyderabad's most trusted event management company. 3+ years, 50+ corporate events, 1000+ delegates managed — and a 4.9 Google rating. Born in Hyderabad, built for extraordinary events.",
+  keywords: [
+    "about la grande events hyderabad",
+    "event management team hyderabad",
+    "best event planners hyderabad",
+    "trusted event company telangana",
+  ],
   openGraph: {
     title: `About Us | ${COMPANY_NAME}`,
-    description: "Born in Hyderabad. Built for extraordinary events.",
+    description: "Born in Hyderabad. Built for extraordinary events. 4.9 Google rating, 50+ corporate events.",
     url: "/about",
+    images: [{ url: "/images/og-home.jpg", width: 1200, height: 630 }],
+  },
+  alternates: {
+    canonical: "https://www.lagrandeinc.com/about",
   },
 };
 
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://www.lagrandeinc.com/#organization",
   name: COMPANY_NAME,
-  description: "Premium event management company in Hyderabad, Telangana, India.",
+  description:
+    "Premium event management company in Hyderabad, Telangana, India. Specialising in corporate events, weddings, product launches, and social celebrations.",
+  url: "https://www.lagrandeinc.com",
+  logo: "https://www.lagrandeinc.com/images/logo.png",
   foundingLocation: "Hyderabad, Telangana, India",
-  url: "https://lagrandeevents.in",
-  areaServed: "Hyderabad",
+  areaServed: ["Hyderabad", "Telangana", "India"],
+  sameAs: [
+    "https://www.instagram.com/lagrande_events_planners/",
+    "https://www.facebook.com/profile.php?id=61558597568999",
+    "https://youtube.com/@lagrandeevents",
+    "https://linkedin.com/company/lagrandeevents",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+91-9989838909",
+    contactType: "customer service",
+    areaServed: "IN",
+    availableLanguage: ["English", "Hindi", "Telugu"],
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home",     item: "https://www.lagrandeinc.com" },
+    { "@type": "ListItem", position: 2, name: "About Us", item: "https://www.lagrandeinc.com/about" },
+  ],
 };
 
 
@@ -101,6 +136,10 @@ export default function AboutPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* ── HERO ── */}
@@ -310,27 +349,18 @@ export default function AboutPage() {
       </section>
 
       {/* ── VALUES ── */}
-      <section id="values" className="py-16 md:py-32 relative overflow-hidden">
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.1) 0%, transparent 70%)",
-            width: "100%",
-            maxWidth: "900px",
-            height: "500px",
-          }}
-        />
+      <section id="values" className="py-16 md:py-32 relative overflow-hidden" style={{ background: "#F5F0E8", borderRadius: "2.5rem" }}>
         <div className="section-container relative z-10">
           <SectionReveal className="mb-14 text-center">
             <GoldDivider delay={0} className="mb-4 mx-auto" />
             <p className="eyebrow mb-3">What We Stand For</p>
             <h2
-              className="text-ivory font-light"
+              className="font-light"
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(2.4rem, 5vw, 4.5rem)",
                 letterSpacing: "-0.03em",
+                color: "#0D0A1A",
               }}
             >
               Three things we never compromise on
@@ -340,7 +370,16 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {VALUES.map((val, i) => (
               <SectionReveal key={i} delay={i * 0.1}>
-                <div className="card-glass p-8 text-center" style={{ minHeight: "200px" }}>
+                <div
+                  className="p-8 text-center"
+                  style={{
+                    minHeight: "200px",
+                    background: "rgba(255,255,255,0.65)",
+                    border: "1px solid rgba(13,10,26,0.08)",
+                    borderRadius: "16px",
+                    boxShadow: "0 4px 20px rgba(13,10,26,0.06)",
+                  }}
+                >
                   <div
                     className="text-champagne text-3xl mb-4"
                     style={{ fontFamily: "var(--font-display)" }}
@@ -348,12 +387,12 @@ export default function AboutPage() {
                     {val.symbol}
                   </div>
                   <h3
-                    className="text-ivory font-medium mb-3"
-                    style={{ fontSize: "1.125rem" }}
+                    className="font-medium mb-3"
+                    style={{ fontSize: "1.125rem", color: "#0D0A1A" }}
                   >
                     {val.title}
                   </h3>
-                  <p className="text-muted text-sm font-light leading-relaxed">{val.body}</p>
+                  <p className="text-sm font-light leading-relaxed" style={{ color: "rgba(13,10,26,0.6)" }}>{val.body}</p>
                 </div>
               </SectionReveal>
             ))}
@@ -726,22 +765,10 @@ export default function AboutPage() {
         id="city"
         className="pt-10 pb-12 md:pt-14 md:pb-28 relative overflow-hidden"
         style={{
-          background: "rgba(255,255,255,0.018)",
-          borderRadius: "clamp(1rem, 5vw, 2.5rem)",
+          background: "#F5F0E8",
+          borderRadius: "2.5rem",
         }}
       >
-        {/* Warm glow behind the map */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top: "10%",
-            right: "-80px",
-            width: "500px",
-            height: "500px",
-            background: "radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 65%)",
-            borderRadius: "50%",
-          }}
-        />
         <div className="section-container relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left: text + pills */}
@@ -749,22 +776,23 @@ export default function AboutPage() {
               <GoldDivider delay={0.1} className="mb-4" />
               <p className="eyebrow mb-3">Proudly Local</p>
               <h2
-                className="text-ivory font-light mb-5"
+                className="font-light mb-5"
                 style={{
                   fontFamily: "var(--font-display)",
                   fontSize: "clamp(2rem, 4vw, 3rem)",
                   letterSpacing: "-0.02em",
+                  color: "#0D0A1A",
                 }}
               >
                 Hyderabad is home.
                 <br />
-                <span style={{ fontStyle: "italic", color: "rgba(245,240,232,0.6)" }}>
+                <span style={{ fontStyle: "italic", color: "rgba(13,10,26,0.5)" }}>
                   Not just headquarters.
                 </span>
               </h2>
               <p
                 className="font-light leading-relaxed text-sm mb-7"
-                style={{ color: "rgba(245,240,232,0.72)", maxWidth: "480px" }}
+                style={{ color: "rgba(13,10,26,0.65)", maxWidth: "480px" }}
               >
                 We know this city the way only locals do — the venues that photograph well but
                 serve badly, the caterers who deliver when it matters, the AV teams you can trust
@@ -778,9 +806,9 @@ export default function AboutPage() {
                     key={area}
                     className="px-4 py-1.5 text-xs"
                     style={{
-                      background: "rgba(201,169,110,0.08)",
-                      border: "1px solid rgba(201,169,110,0.22)",
-                      color: "#C9A96E",
+                      background: "rgba(201,169,110,0.12)",
+                      border: "1px solid rgba(201,169,110,0.3)",
+                      color: "#8B6A2E",
                       letterSpacing: "0.08em",
                       borderRadius: "100px",
                     }}
@@ -797,17 +825,16 @@ export default function AboutPage() {
                 className="overflow-hidden"
                 style={{
                   borderRadius: "20px",
-                  border: "1px solid rgba(201,169,110,0.22)",
+                  border: "1px solid rgba(13,10,26,0.12)",
                   height: "380px",
-                  boxShadow:
-                    "0 12px 48px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.03)",
+                  boxShadow: "0 12px 48px rgba(13,10,26,0.1)",
                 }}
               >
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d242841.52521266456!2d78.2575!3d17.412609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99daeaebd2c7%3A0xae93b78392bafbc2!2sHyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                   width="100%"
                   height="380"
-                  style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)", display: "block" }}
+                  style={{ border: 0, display: "block" }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -816,8 +843,8 @@ export default function AboutPage() {
               </div>
               {/* Caption below map */}
               <p
-                className="mt-3 text-center text-muted"
-                style={{ fontSize: "0.72rem", letterSpacing: "0.08em" }}
+                className="mt-3 text-center"
+                style={{ fontSize: "0.72rem", letterSpacing: "0.08em", color: "rgba(13,10,26,0.45)" }}
               >
                 Hyderabad, Telangana · Our home city
               </p>

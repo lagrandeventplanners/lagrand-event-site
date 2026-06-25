@@ -6,15 +6,26 @@ import SectionReveal from "@/components/ui/SectionReveal";
 import GoldDivider from "@/components/ui/GoldDivider";
 import StatCounter from "@/components/ui/StatCounter";
 import HeroBG from "@/components/ui/HeroBG";
+import HeroContent from "@/components/ui/HeroContent";
+import Marquee from "@/components/ui/Marquee";
 import FAQWithImages from "@/components/sections/FAQWithImages";
 import VideoSection from "@/components/sections/VideoSection";
 import {
   COMPANY_NAME,
+  COMPANY_PHONE,
+  COMPANY_PHONE_2,
+  COMPANY_EMAIL,
+  COMPANY_INSTAGRAM,
+  COMPANY_FACEBOOK,
+  COMPANY_YOUTUBE,
+  COMPANY_LINKEDIN,
+  SITE_URL,
   STATS,
   EVENT_TYPES,
   PORTFOLIO_ITEMS,
   WHY_US,
   TESTIMONIALS,
+  FAQS,
   WHATSAPP_URL,
   COMPANY_WHATSAPP,
 } from "@/lib/constants";
@@ -23,62 +34,109 @@ import { getEvents, type EventPost } from "@/lib/events-store";
 export const metadata: Metadata = {
   title: "Best Event Management Company in Hyderabad | Corporate & Personal Events",
   description:
-    "Hyderabad's premier event management company. We craft extraordinary corporate events, weddings, product launches, and social celebrations. Trusted by leading brands. Get a free quote today.",
+    "Hyderabad's premier event management company. We craft extraordinary corporate events, weddings, product launches, and social celebrations. Trusted by 50+ leading brands. Call +91 9989838909 for a free quote.",
   keywords: [
     "event management company hyderabad",
     "corporate event planners hyderabad",
     "wedding event management hyderabad",
     "product launch events hyderabad",
     "best event company hyderabad",
+    "event organizers banjara hills hyderabad",
+    "annual day event planners hyderabad",
+    "sangeet wedding planners hyderabad",
+    "team outing corporate events hyderabad",
+    "MICE hyderabad event management",
   ],
   openGraph: {
     title: "Best Event Management Company in Hyderabad | La Grande Events",
     description:
       "Crafting extraordinary corporate events, weddings, product launches, and social celebrations across Hyderabad.",
     url: "/",
-    images: [{ url: "/images/og-home.jpg", width: 1200, height: 630 }],
+    images: [{ url: "/images/og-home.jpg", width: 1200, height: 630, alt: "La Grandè Events — Premium Event Management Hyderabad" }],
+  },
+  alternates: {
+    canonical: "https://www.lagrandeinc.com",
   },
 };
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": ["LocalBusiness", "EventPlanningService"],
+  "@id": `${SITE_URL}/#localbusiness`,
   name: COMPANY_NAME,
   description:
-    "Premium event management company in Hyderabad specializing in corporate events, weddings, product launches, and social celebrations.",
+    "Premium event management company in Hyderabad specializing in corporate events, weddings, product launches, MICE, and social celebrations. Serving Hyderabad, Telangana and across India.",
+  url: SITE_URL,
+  telephone: COMPANY_PHONE,
+  telephone2: COMPANY_PHONE_2,
+  email: COMPANY_EMAIL,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Hyderabad",
     addressRegion: "Telangana",
     addressCountry: "IN",
+    postalCode: "500034",
   },
-  telephone: "+91 98765 43210",
-  url: "https://lagrandeevents.in",
-  areaServed: "Hyderabad",
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 17.412609,
+    longitude: 78.2575,
+  },
+  hasMap: "https://maps.google.com/?q=La+Grande+Events+Hyderabad",
+  areaServed: [
+    { "@type": "City", name: "Hyderabad" },
+    { "@type": "State", name: "Telangana" },
+    { "@type": "Country", name: "India" },
+  ],
   priceRange: "₹₹₹",
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: [
+      "Monday", "Tuesday", "Wednesday", "Thursday",
+      "Friday", "Saturday", "Sunday",
+    ],
+    opens: "09:00",
+    closes: "21:00",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    reviewCount: "50",
+    bestRating: "5",
+    worstRating: "1",
+  },
+  sameAs: [
+    COMPANY_INSTAGRAM,
+    COMPANY_FACEBOOK,
+    COMPANY_YOUTUBE,
+    COMPANY_LINKEDIN,
+  ],
+  knowsAbout: [
+    "Corporate Event Management",
+    "Wedding Planning",
+    "Sangeet Planning",
+    "Product Launch Events",
+    "Social Celebrations",
+    "MICE Corporate Offsites",
+    "Event Decoration & Theming",
+    "Artist & Entertainment Booking",
+    "AV & Stage Production",
+  ],
+  image: `${SITE_URL}/images/og-home.jpg`,
+  logo: `${SITE_URL}/images/logo.png`,
 };
 
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What types of events do you manage?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "We handle corporate conferences, annual days, weddings, product launches, birthday celebrations, and more.",
-      },
+  mainEntity: FAQS.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
     },
-    {
-      "@type": "Question",
-      name: "How far in advance should I book?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "For corporate events, 4–6 weeks. For weddings and large celebrations, 3–6 months in advance.",
-      },
-    },
-  ],
+  })),
 };
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -129,94 +187,18 @@ export default async function HomePage() {
         {/* Hero content */}
         <div className="absolute inset-0 flex flex-col" style={{ zIndex: 3 }}>
           {/* Navbar height spacer */}
-          <div style={{ height: "80px", flexShrink: 0 }} />
+          <div style={{ height: "88px", flexShrink: 0 }} />
 
           {/* Text block */}
           <div className="flex-1 flex flex-col justify-center px-8 md:px-16 lg:px-20">
-            <div style={{ maxWidth: "520px" }}>
-
-              {/* Headline */}
-              <h1 style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(3rem, 7vw, 7rem)",
-                lineHeight: 1.0,
-                fontWeight: 300,
-                color: "#F5F0E8",
-                letterSpacing: "-0.01em",
-                margin: 0,
-              }}>
-                Crafting<br />
-                <span style={{ color: "#C9A96E", fontWeight: 600 }}>Extraordinary</span><br />
-                Events
-              </h1>
-
-              {/* Subtitle */}
-              <p style={{
-                color: "rgba(245,240,232,0.45)",
-                fontSize: "1rem",
-                lineHeight: 1.8,
-                maxWidth: "520px",
-                marginTop: "1.5rem",
-                marginBottom: "2.25rem",
-                fontFamily: "var(--font-body)",
-                fontWeight: 300,
-                letterSpacing: "0.02em",
-              }}>
-                Corporate events, weddings &amp; product launches — executed with precision across India.
-              </p>
-
-              {/* CTAs */}
-              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                <a
-                  href="/contact"
-                  style={{
-                    display: "inline-block",
-                    background: "rgba(201,169,110,0.25)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
-                    border: "1px solid rgba(201,169,110,0.55)",
-                    color: "#F5F0E8",
-                    padding: "0.8rem 2rem",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.18em",
-                    textTransform: "uppercase",
-                    fontFamily: "var(--font-body)",
-                    fontWeight: 600,
-                    textDecoration: "none",
-                    borderRadius: "100px",
-                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12), 0 4px 20px rgba(201,169,110,0.15)",
-                  }}
-                >
-                  Plan Your Event
-                </a>
-                <a
-                  href="/services"
-                  style={{
-                    display: "inline-block",
-                    background: "rgba(255,255,255,0.07)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
-                    border: "1px solid rgba(255,255,255,0.15)",
-                    color: "rgba(245,240,232,0.75)",
-                    padding: "0.8rem 1.75rem",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.18em",
-                    textTransform: "uppercase",
-                    fontFamily: "var(--font-body)",
-                    fontWeight: 400,
-                    textDecoration: "none",
-                    borderRadius: "100px",
-                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)",
-                  }}
-                >
-                  Our Services
-                </a>
-              </div>
-            </div>
+            <HeroContent />
           </div>
 
         </div>
       </section>
+
+      {/* ── MARQUEE ── */}
+      <Marquee />
 
       {/* ── TRUST BAR ── */}
       <section

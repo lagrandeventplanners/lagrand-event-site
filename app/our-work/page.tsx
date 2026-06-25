@@ -6,12 +6,37 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Our Work | La Grandè Events",
+  title: "Our Work & Portfolio | Corporate Events, Weddings, Product Launches — La Grandè Events Hyderabad",
   description:
-    "Portfolio of corporate events, weddings, product launches and celebrations across Hyderabad.",
+    "Browse La Grandè Events' portfolio — corporate conferences, annual days, sangeet nights, product launches, award galas, and social celebrations executed flawlessly across Hyderabad.",
+  keywords: [
+    "event portfolio hyderabad",
+    "corporate event portfolio hyderabad",
+    "wedding event portfolio hyderabad",
+    "la grande events portfolio",
+    "event management work hyderabad",
+  ],
+  openGraph: {
+    title: "Our Work & Portfolio | La Grandè Events Hyderabad",
+    description: "Real events. Real results. Browse our portfolio of corporate, wedding, and celebration events across Hyderabad.",
+    url: "/our-work",
+    images: [{ url: "/images/og-home.jpg", width: 1200, height: 630 }],
+  },
+  alternates: {
+    canonical: "https://www.lagrandeinc.com/our-work",
+  },
 };
 
 export const dynamic = "force-dynamic";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home",     item: "https://www.lagrandeinc.com" },
+    { "@type": "ListItem", position: 2, name: "Our Work", item: "https://www.lagrandeinc.com/our-work" },
+  ],
+};
 
 export default async function OurWorkPage() {
   const allEvents = await getEvents();
@@ -21,6 +46,11 @@ export default async function OurWorkPage() {
   );
 
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
     <main style={{ minHeight: "100vh", background: "#050510", paddingTop: "80px" }}>
 
       {/* Header */}
@@ -125,9 +155,11 @@ export default async function OurWorkPage() {
       {/* CTA strip */}
       <section
         style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          background: "#F5F0E8",
+          borderRadius: "2.5rem",
           paddingTop: "4rem",
           paddingBottom: "5rem",
+          marginTop: "1rem",
         }}
       >
         <div
@@ -146,7 +178,7 @@ export default async function OurWorkPage() {
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(1.7rem, 3vw, 2.6rem)",
                 fontWeight: 300,
-                color: "#F5F0E8",
+                color: "#0D0A1A",
                 margin: "0 0 0.4rem",
                 letterSpacing: "-0.02em",
               }}
@@ -157,7 +189,7 @@ export default async function OurWorkPage() {
               style={{
                 fontFamily: "var(--font-body)",
                 fontSize: "0.82rem",
-                color: "rgba(245,240,232,0.3)",
+                color: "rgba(13,10,26,0.5)",
                 margin: 0,
               }}
             >
@@ -172,7 +204,7 @@ export default async function OurWorkPage() {
               display: "inline-flex",
               alignItems: "center",
               gap: "0.6rem",
-              background: "#C9A96E",
+              background: "linear-gradient(135deg, #C9A96E 0%, #A07840 100%)",
               color: "#050510",
               padding: "0.85rem 2rem",
               borderRadius: "100px",
@@ -184,6 +216,7 @@ export default async function OurWorkPage() {
               textTransform: "uppercase",
               flexShrink: 0,
               transition: "opacity 0.2s ease",
+              boxShadow: "0 6px 24px rgba(201,169,110,0.3)",
             }}
           >
             Start Planning <ArrowRight size={13} />
@@ -192,5 +225,6 @@ export default async function OurWorkPage() {
       </section>
 
     </main>
+    </>
   );
 }

@@ -11,26 +11,59 @@ import { COMPANY_NAME, SERVICES, COMPANY_WHATSAPP, STATS } from "@/lib/constants
 export const metadata: Metadata = {
   title: `Event Management Services in Hyderabad | Corporate, Wedding & More | ${COMPANY_NAME}`,
   description:
-    "Complete event management services in Hyderabad — corporate events, weddings, product launches, birthday parties, MICE, and décor. End-to-end execution by expert planners.",
+    "Complete event management services in Hyderabad — corporate conferences, weddings, sangeet, product launches, birthday parties, MICE corporate offsites, and full décor & production. End-to-end execution by expert planners.",
+  keywords: [
+    "corporate event management hyderabad",
+    "wedding event planners hyderabad",
+    "product launch event company hyderabad",
+    "MICE corporate offsite hyderabad",
+    "birthday party planners hyderabad",
+    "sangeet event planners hyderabad",
+    "event décor production hyderabad",
+    "team outing organizers hyderabad",
+  ],
   openGraph: {
     title: `Event Management Services in Hyderabad | ${COMPANY_NAME}`,
     description: "Every event type. One expert team. End-to-end execution across Hyderabad.",
     url: "/services",
+    images: [{ url: "/images/og-home.jpg", width: 1200, height: 630 }],
+  },
+  alternates: {
+    canonical: "https://www.lagrandeinc.com/services",
   },
 };
 
 const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Event Management Services",
+  name: "Event Management Services — La Grandè Events Hyderabad",
   itemListElement: SERVICES.map((s, i) => ({
-    "@type": "Service",
+    "@type": "ListItem",
     position: i + 1,
-    name: s.title,
-    description: s.description,
-    areaServed: "Hyderabad",
-    provider: { "@type": "Organization", name: COMPANY_NAME },
+    item: {
+      "@type": "Service",
+      name: s.title,
+      description: s.description,
+      areaServed: [
+        { "@type": "City", name: "Hyderabad" },
+        { "@type": "State", name: "Telangana" },
+      ],
+      provider: {
+        "@type": "LocalBusiness",
+        name: COMPANY_NAME,
+        url: "https://www.lagrandeinc.com",
+      },
+    },
   })),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home",     item: "https://www.lagrandeinc.com" },
+    { "@type": "ListItem", position: 2, name: "Services", item: "https://www.lagrandeinc.com/services" },
+  ],
 };
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -48,6 +81,10 @@ export default function ServicesPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* ── HERO ── */}
@@ -340,6 +377,7 @@ export default function ServicesPage() {
       {/* ── OUR APPROACH ── */}
       <section
         className="py-14 md:py-28 relative overflow-hidden"
+        style={{ background: "#F5F0E8", borderRadius: "2.5rem" }}
       >
         <div className="section-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -353,19 +391,19 @@ export default function ServicesPage() {
                   fontFamily: "var(--font-display)",
                   fontSize: "clamp(2rem, 4vw, 3.25rem)",
                   letterSpacing: "-0.02em",
-                  color: "#F5F0E8",
+                  color: "#0D0A1A",
                   lineHeight: 1.1,
                 }}
               >
                 End-to-end execution.
                 <br />
-                <span style={{ fontStyle: "italic", color: "rgba(245,240,232,0.55)" }}>
+                <span style={{ fontStyle: "italic", color: "rgba(13,10,26,0.45)" }}>
                   Zero gaps.
                 </span>
               </h2>
               <p
                 className="font-light leading-relaxed"
-                style={{ fontSize: "1rem", color: "rgba(245,240,232,0.6)", maxWidth: "460px" }}
+                style={{ fontSize: "1rem", color: "rgba(13,10,26,0.65)", maxWidth: "460px" }}
               >
                 Every La Grandè service comes with a dedicated event manager, transparent pricing,
                 and our 48-hour response guarantee. One team, one commitment — from first call to
@@ -395,7 +433,7 @@ export default function ServicesPage() {
                     <p
                       style={{
                         fontSize: "0.62rem",
-                        color: "rgba(245,240,232,0.45)",
+                        color: "rgba(13,10,26,0.45)",
                         letterSpacing: "0.1em",
                         textTransform: "uppercase" as const,
                         margin: "0.3rem 0 0",

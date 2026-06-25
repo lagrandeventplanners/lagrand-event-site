@@ -1,3 +1,9 @@
+// ── Analytics & Verification (replace placeholders after account creation) ──
+export const GOOGLE_TAG_MANAGER_ID = "GTM-M262KTS9";
+export const GOOGLE_SEARCH_CONSOLE_ID = ""; // Replace after: search.google.com/search-console
+export const GOOGLE_ANALYTICS_ID = "G-8VSR4SC199";
+
+// ── Company Details ──
 export const COMPANY_NAME = "La Grandè Events";
 export const COMPANY_TAGLINE = "Eventing Future";
 export const COMPANY_PHONE = "+91 9989838909";
@@ -11,7 +17,7 @@ export const COMPANY_FACEBOOK = "https://www.facebook.com/profile.php?id=6155859
 export const COMPANY_YOUTUBE = "https://youtube.com/@lagrandeevents";
 export const COMPANY_LINKEDIN = "https://linkedin.com/company/lagrandeevents";
 export const GOOGLE_REVIEWS_LINK = "https://g.page/r/lagrandeevents/review";
-export const SITE_URL = "https://lagrandeevents.in";
+export const SITE_URL = "https://www.lagrandeinc.com";
 
 export const WHATSAPP_MESSAGE = encodeURIComponent(
   "Hello! I'd like to enquire about your event management services."

@@ -15,19 +15,32 @@ import {
 export const metadata: Metadata = {
   title: `Contact Us | Get a Free Event Quote | ${COMPANY_NAME} Hyderabad`,
   description:
-    "Get in touch with Hyderabad's premier event management team. Fill out our inquiry form or WhatsApp us directly. Free consultation, response within 2 hours.",
+    "Get in touch with Hyderabad's premier event management team. Fill out our inquiry form or WhatsApp us directly for a free consultation. We respond within 2 hours. Call +91 9989838909.",
+  keywords: [
+    "contact event management company hyderabad",
+    "free event consultation hyderabad",
+    "event planning enquiry hyderabad",
+    "la grande events contact",
+  ],
   openGraph: {
-    title: `Contact ${COMPANY_NAME} | Free Event Consultation`,
-    description: "Reach out for a free event consultation. We respond within 2 hours.",
+    title: `Contact ${COMPANY_NAME} | Free Event Consultation Hyderabad`,
+    description: "Reach out for a free event consultation. Call, WhatsApp or email — we respond within 2 hours.",
     url: "/contact",
+    images: [{ url: "/images/og-home.jpg", width: 1200, height: 630 }],
+  },
+  alternates: {
+    canonical: "https://www.lagrandeinc.com/contact",
   },
 };
 
 const contactSchema = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
+  name: `Contact ${COMPANY_NAME}`,
+  url: "https://www.lagrandeinc.com/contact",
   mainEntity: {
     "@type": "LocalBusiness",
+    "@id": "https://www.lagrandeinc.com/#localbusiness",
     name: COMPANY_NAME,
     telephone: COMPANY_PHONE,
     email: COMPANY_EMAIL,
@@ -37,13 +50,30 @@ const contactSchema = {
       addressRegion: "Telangana",
       addressCountry: "IN",
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 17.412609,
+      longitude: 78.2575,
+    },
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      dayOfWeek: [
+        "Monday", "Tuesday", "Wednesday", "Thursday",
+        "Friday", "Saturday", "Sunday",
+      ],
       opens: "09:00",
       closes: "21:00",
     },
   },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home",       item: "https://www.lagrandeinc.com" },
+    { "@type": "ListItem", position: 2, name: "Contact Us", item: "https://www.lagrandeinc.com/contact" },
+  ],
 };
 
 export default function ContactPage() {
@@ -52,6 +82,10 @@ export default function ContactPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* ── HERO ── */}
@@ -239,23 +273,49 @@ export default function ContactPage() {
       </section>
 
       {/* ── MAP ── */}
-      <section className="pb-20">
+      <section
+        className="pb-20"
+        style={{ background: "#F5F0E8", borderRadius: "2.5rem", paddingTop: "3rem" }}
+      >
         <div className="section-container">
+          <p
+            className="eyebrow mb-3"
+            style={{ textAlign: "center" }}
+          >
+            Find Us
+          </p>
+          <p
+            className="text-center font-light mb-6"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.4rem, 2.5vw, 1.9rem)",
+              letterSpacing: "-0.01em",
+              color: "#0D0A1A",
+            }}
+          >
+            Based in Hyderabad, Serving All of India
+          </p>
           <div
             className="overflow-hidden rounded-2xl"
-            style={{ border: "1px solid rgba(201,169,110,0.15)", height: "400px" }}
+            style={{ border: "1px solid rgba(13,10,26,0.1)", height: "400px", boxShadow: "0 8px 32px rgba(13,10,26,0.08)" }}
           >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d242841.52521266456!2d78.2575!3d17.412609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99daeaebd2c7%3A0xae93b78392bafbc2!2sHyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
               width="100%"
               height="400"
-              style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
+              style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               title="La Grande Events Location — Hyderabad"
             />
           </div>
+          <p
+            className="mt-3 text-center"
+            style={{ fontSize: "0.72rem", letterSpacing: "0.08em", color: "rgba(13,10,26,0.45)" }}
+          >
+            Hyderabad, Telangana · Available nationwide for destination events
+          </p>
         </div>
       </section>
     </>
