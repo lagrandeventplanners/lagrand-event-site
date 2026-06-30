@@ -18,7 +18,7 @@ export const COMPANY_YOUTUBE = "https://youtube.com/@lagrandeevents";
 export const COMPANY_LINKEDIN = "https://linkedin.com/company/lagrandeevents";
 export const GOOGLE_REVIEWS_LINK = "https://g.page/r/CYhyF3aG7xQeEAE/review";
 export const SITE_URL = "https://www.lagrandeinc.com";
-export const SITE_VERSION = "1.1.3";
+export const SITE_VERSION = "1.1.4";
 
 export const WHATSAPP_MESSAGE = encodeURIComponent(
   "Hello! I'd like to enquire about your event management services."
