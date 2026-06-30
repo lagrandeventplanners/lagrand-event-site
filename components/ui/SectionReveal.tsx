@@ -22,10 +22,10 @@ export default function SectionReveal({
 
   const getInitial = () => {
     if (shouldReduceMotion || direction === "none") return { opacity: 0 };
-    if (direction === "up") return { opacity: 0, y: 30 };
-    if (direction === "left") return { opacity: 0, x: -30 };
-    if (direction === "right") return { opacity: 0, x: 30 };
-    return { opacity: 0, y: 30 };
+    if (direction === "up") return { opacity: 0, y: 18 };
+    if (direction === "left") return { opacity: 0, x: -18 };
+    if (direction === "right") return { opacity: 0, x: 18 };
+    return { opacity: 0, y: 18 };
   };
 
   const getAnimate = () => {
@@ -42,7 +42,7 @@ export default function SectionReveal({
       initial={getInitial()}
       animate={isInView ? getAnimate() : getInitial()}
       transition={{
-        duration: shouldReduceMotion ? 0 : 0.75,
+        duration: shouldReduceMotion ? 0 : 0.5,
         delay: shouldReduceMotion ? 0 : delay,
         ease: [0.25, 0.1, 0.25, 1],
       }}

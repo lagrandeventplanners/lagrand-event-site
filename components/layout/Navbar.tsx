@@ -51,19 +51,21 @@ export default function Navbar() {
           borderBottom: scrolled
             ? "1px solid rgba(201, 169, 110, 0.12)"
             : "1px solid rgba(255, 255, 255, 0.06)",
+          willChange: "transform",
+          transform: "translateZ(0)",
         }}
       >
-        <div className="flex items-center h-20 px-4 sm:px-8 md:px-16">
+        <div className="flex items-center h-22 px-4 sm:px-8 md:px-16">
           {/* Logo — left third */}
           <div className="flex-1 flex items-center">
             <Link href="/" className="flex items-center gap-2 group">
               {HAS_LOGO ? (
-                <div style={{ position: "relative", width: "min(340px, 42vw)", height: "80px", flexShrink: 0 }}>
+                <div style={{ position: "relative", width: "min(340px, 42vw)", height: "82px", flexShrink: 0 }}>
                   <Image
                     src={LOGO_SRC}
                     alt={COMPANY_NAME}
                     fill
-                    sizes="340px"
+                    sizes="(max-width: 640px) 42vw, 340px"
                     style={{ objectFit: "contain", objectPosition: "left center" }}
                     priority
                   />
@@ -177,7 +179,7 @@ export default function Navbar() {
             }}
           >
             {/* Close button */}
-            <div className="flex justify-between items-center px-6 h-20">
+            <div className="flex justify-between items-center px-6 h-22">
               <Link href="/" className="flex items-center gap-2">
                 <span className="text-[#C9A96E] text-xl" style={{ fontFamily: "var(--font-display)" }}>◆</span>
                 <span className="text-[#F5F0E8] text-xl font-light" style={{ fontFamily: "var(--font-display)" }}>{COMPANY_NAME}</span>

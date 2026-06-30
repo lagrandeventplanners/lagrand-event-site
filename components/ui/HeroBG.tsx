@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 function VolumeOffIcon() {
   return (
@@ -27,6 +27,16 @@ function VolumeOnIcon() {
 export default function HeroBG() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
+  // Start as true (mobile) so video never loads on mobile; desktop flips after mount
+  const [showVideo, setShowVideo] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    setShowVideo(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setShowVideo(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   function toggleAudio() {
     const v = videoRef.current;
@@ -37,7 +47,7 @@ export default function HeroBG() {
 
   return (
     <>
-      {/* ── Full-viewport video ───────────────────────────── */}
+      {/* ── Full-viewport background ──────────────────────── */}
       <div
         aria-hidden="true"
         style={{
@@ -49,60 +59,65 @@ export default function HeroBG() {
           zIndex: 0,
         }}
       >
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
-        >
-          <source src="/videos/hero.webm" type="video/webm" />
-        </video>
+        {showVideo && (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+          >
+            <source src="/videos/hero.webm" type="video/webm" />
+          </video>
+        )}
       </div>
 
-      {/* ── Audio toggle ──────────────────────────────────── */}
-      <button
-        onClick={toggleAudio}
-        aria-label={muted ? "Unmute video" : "Mute video"}
-        style={{
-          position: "absolute",
-          bottom: "6rem",
-          right: "1.5rem",
-          zIndex: 10,
-          width: "42px",
-          height: "42px",
-          borderRadius: "50%",
-          background: "rgba(255,255,255,0.07)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          border: "1px solid rgba(201,169,110,0.35)",
-          color: muted ? "rgba(255,255,255,0.55)" : "rgba(201,169,110,0.95)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-          transition: "background 0.25s, border-color 0.25s, color 0.25s",
-          outline: "none",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = "rgba(201,169,110,0.12)";
-          e.currentTarget.style.borderColor = "rgba(201,169,110,0.6)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = "rgba(255,255,255,0.07)";
-          e.currentTarget.style.borderColor = "rgba(201,169,110,0.35)";
-        }}
-      >
-        {muted ? <VolumeOffIcon /> : <VolumeOnIcon />}
-      </button>
+      {/* ── Audio toggle (desktop only) ───────────────────── */}
+      {showVideo && (
+        <button
+          onClick={toggleAudio}
+          aria-label={muted ? "Unmute video" : "Mute video"}
+          style={{
+            position: "absolute",
+            bottom: "6rem",
+            right: "1.5rem",
+            zIndex: 10,
+            width: "42px",
+            height: "42px",
+            borderRadius: "50%",
+            background: "rgba(255,255,255,0.07)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            border: "1px solid rgba(201,169,110,0.35)",
+            color: muted ? "rgba(255,255,255,0.55)" : "rgba(201,169,110,0.95)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            transition: "background 0.25s, border-color 0.25s, color 0.25s",
+            outline: "none",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "rgba(201,169,110,0.12)";
+            e.currentTarget.style.borderColor = "rgba(201,169,110,0.6)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "rgba(255,255,255,0.07)";
+            e.currentTarget.style.borderColor = "rgba(201,169,110,0.35)";
+          }}
+        >
+          {muted ? <VolumeOffIcon /> : <VolumeOnIcon />}
+        </button>
+      )}
     </>
   );
 }

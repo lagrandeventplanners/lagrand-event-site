@@ -8,10 +8,7 @@ import { COMPANY_WHATSAPP } from "@/lib/constants";
 interface FormData {
   name: string;
   phone: string;
-  email?: string;
   eventType: string;
-  guestCount: string;
-  eventDate?: string;
   message?: string;
 }
 
@@ -23,14 +20,6 @@ const eventTypes = [
   "MICE / Offsite",
   "Décor & Entertainment",
   "Other",
-];
-
-const guestCounts = [
-  "Under 50",
-  "50–100",
-  "100–250",
-  "250–500",
-  "500+",
 ];
 
 export default function ContactForm() {
@@ -45,7 +34,7 @@ export default function ContactForm() {
   const onSubmit = async (data: FormData) => {
     await new Promise((r) => setTimeout(r, 800));
 
-    const waText = `Hello! I'd like to enquire about your event management services.%0A%0AName: ${data.name}%0APhone: ${data.phone}%0AEvent Type: ${data.eventType}%0AGuest Count: ${data.guestCount}${data.eventDate ? `%0ADate: ${data.eventDate}` : ""}${data.message ? `%0ADetails: ${data.message}` : ""}`;
+    const waText = `Hello! I'd like to enquire about your event management services.%0A%0AName: ${data.name}%0APhone: ${data.phone}%0AEvent Type: ${data.eventType}${data.message ? `%0ADetails: ${data.message}` : ""}`;
     window.open(`https://wa.me/${COMPANY_WHATSAPP}?text=${waText}`, "_blank");
 
     setSubmitted(true);
@@ -58,7 +47,7 @@ export default function ContactForm() {
         style={{ minHeight: "300px" }}
       >
         <div
-          className="w-16 h-16 flex items-center justify-center"
+          className="w-16 h-16 flex items-center justify-center rounded-2xl"
           style={{ background: "rgba(201,169,110,0.12)", border: "1px solid rgba(201,169,110,0.3)" }}
         >
           <CheckCircle size={32} className="text-[#C9A96E]" />
@@ -68,10 +57,10 @@ export default function ContactForm() {
             className="text-[#F5F0E8] font-light text-xl mb-2"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            Thank You!
+            We&apos;ll be in touch soon.
           </h3>
           <p className="text-[#8A8A9A] text-sm font-light">
-            We&apos;ll be in touch within 2 hours. WhatsApp opened for a quick chat.
+            WhatsApp opened — expect a reply within 2 hours.
           </p>
         </div>
       </div>
@@ -80,15 +69,16 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+
       {/* Name */}
       <div>
         <label className="form-label">
-          Full Name <span className="text-[#C9A96E]">*</span>
+          Your Name <span className="text-[#C9A96E]">*</span>
         </label>
         <input
           type="text"
           className="form-input"
-          placeholder="Your full name"
+          placeholder="Full name"
           {...register("name", { required: "Name is required" })}
         />
         {errors.name && (
@@ -101,107 +91,47 @@ export default function ContactForm() {
         <label className="form-label">
           Phone Number <span className="text-[#C9A96E]">*</span>
         </label>
-        <div className="flex gap-2">
-          <span
-            className="flex items-center px-3 text-sm font-light shrink-0"
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              color: "#8A8A9A",
-            }}
-          >
-            +91
-          </span>
-          <input
-            type="tel"
-            className="form-input flex-1"
-            placeholder="98765 43210"
-            {...register("phone", {
-              required: "Phone number is required",
-              pattern: { value: /^[6-9]\d{9}$/, message: "Enter a valid 10-digit mobile number" },
-            })}
-          />
-        </div>
+        <input
+          type="tel"
+          className="form-input"
+          placeholder="+91 98765 43210"
+          {...register("phone", {
+            required: "Phone number is required",
+            pattern: { value: /^[6-9]\d{9}$/, message: "Enter a valid 10-digit mobile number" },
+          })}
+        />
         {errors.phone && (
           <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>
         )}
       </div>
 
-      {/* Email */}
+      {/* Event Type */}
       <div>
-        <label className="form-label">Email Address</label>
-        <input
-          type="email"
+        <label className="form-label">
+          Event Type <span className="text-[#C9A96E]">*</span>
+        </label>
+        <select
           className="form-input"
-          placeholder="hello@yourcompany.com (optional)"
-          {...register("email", {
-            pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Enter a valid email" },
-          })}
-        />
-        {errors.email && (
-          <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
+          {...register("eventType", { required: "Please select an event type" })}
+          defaultValue=""
+        >
+          <option value="" disabled>Select event type</option>
+          {eventTypes.map((t) => (
+            <option key={t} value={t}>{t}</option>
+          ))}
+        </select>
+        {errors.eventType && (
+          <p className="text-red-400 text-xs mt-1">{errors.eventType.message}</p>
         )}
-      </div>
-
-      {/* Event Type + Guest Count row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div>
-          <label className="form-label">
-            Event Type <span className="text-[#C9A96E]">*</span>
-          </label>
-          <select
-            className="form-input"
-            {...register("eventType", { required: "Please select an event type" })}
-            defaultValue=""
-          >
-            <option value="" disabled>Select event type</option>
-            {eventTypes.map((t) => (
-              <option key={t} value={t}>{t}</option>
-            ))}
-          </select>
-          {errors.eventType && (
-            <p className="text-red-400 text-xs mt-1">{errors.eventType.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="form-label">
-            Guest Count <span className="text-[#C9A96E]">*</span>
-          </label>
-          <select
-            className="form-input"
-            {...register("guestCount", { required: "Please select guest count" })}
-            defaultValue=""
-          >
-            <option value="" disabled>Approximate guests</option>
-            {guestCounts.map((g) => (
-              <option key={g} value={g}>{g}</option>
-            ))}
-          </select>
-          {errors.guestCount && (
-            <p className="text-red-400 text-xs mt-1">{errors.guestCount.message}</p>
-          )}
-        </div>
-      </div>
-
-      {/* Event Date */}
-      <div>
-        <label className="form-label">Preferred Event Date</label>
-        <input
-          type="date"
-          className="form-input"
-          style={{ colorScheme: "dark" }}
-          {...register("eventDate")}
-        />
       </div>
 
       {/* Message */}
       <div>
-        <label className="form-label">Tell Us More</label>
+        <label className="form-label">Anything else? <span style={{ color: "rgba(138,138,154,0.7)" }}>(optional)</span></label>
         <textarea
           className="form-input resize-none"
-          rows={4}
-          placeholder="Describe your vision, venue preferences, special requirements..."
+          rows={3}
+          placeholder="Date, guest count, venue, vision — anything helps."
           {...register("message")}
         />
       </div>
@@ -214,22 +144,23 @@ export default function ContactForm() {
         style={{
           background: isSubmitting ? "rgba(201,169,110,0.5)" : "#C9A96E",
           color: "#050510",
-          fontWeight: 500,
-          letterSpacing: "0.1em",
+          fontWeight: 600,
+          letterSpacing: "0.12em",
+          borderRadius: "100px",
         }}
       >
-        {isSubmitting ? "Sending..." : "Send My Enquiry →"}
+        {isSubmitting ? "Opening WhatsApp…" : "Send Enquiry →"}
       </button>
 
       <p className="text-center text-[#8A8A9A] text-xs font-light">
-        Or message us directly on WhatsApp for a faster response{" "}
+        Prefer to message directly?{" "}
         <a
           href={`https://wa.me/${COMPANY_WHATSAPP}?text=${encodeURIComponent("Hello! I'd like to enquire about event management services.")}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#C9A96E] hover:text-[#E8D5B0] transition-colors"
         >
-          →
+          WhatsApp us →
         </a>
       </p>
     </form>

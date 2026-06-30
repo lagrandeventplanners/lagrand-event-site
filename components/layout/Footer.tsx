@@ -388,7 +388,7 @@ export default function Footer() {
         <div className="section-container py-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs font-light text-muted">
-              © 2025 {COMPANY_NAME}. All rights reserved.
+              © 2026 {COMPANY_NAME}. All rights reserved.
             </p>
             <div className="flex items-center gap-5">
               <a

@@ -16,7 +16,7 @@ export const COMPANY_INSTAGRAM = "https://www.instagram.com/lagrande_events_plan
 export const COMPANY_FACEBOOK = "https://www.facebook.com/profile.php?id=61558597568999";
 export const COMPANY_YOUTUBE = "https://youtube.com/@lagrandeevents";
 export const COMPANY_LINKEDIN = "https://linkedin.com/company/lagrandeevents";
-export const GOOGLE_REVIEWS_LINK = "https://g.page/r/lagrandeevents/review";
+export const GOOGLE_REVIEWS_LINK = "https://g.page/r/CYhyF3aG7xQeEAE/review";
 export const SITE_URL = "https://www.lagrandeinc.com";
 
 export const WHATSAPP_MESSAGE = encodeURIComponent(

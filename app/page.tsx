@@ -68,7 +68,22 @@ const localBusinessSchema = {
     "Premium event management company in Hyderabad specializing in corporate events, weddings, product launches, MICE, and social celebrations. Serving Hyderabad, Telangana and across India.",
   url: SITE_URL,
   telephone: COMPANY_PHONE,
-  telephone2: COMPANY_PHONE_2,
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      telephone: COMPANY_PHONE,
+      contactType: "customer service",
+      areaServed: "IN",
+      availableLanguage: ["English", "Hindi", "Telugu"],
+    },
+    {
+      "@type": "ContactPoint",
+      telephone: COMPANY_PHONE_2,
+      contactType: "sales",
+      areaServed: "IN",
+      availableLanguage: ["English", "Hindi", "Telugu"],
+    },
+  ],
   email: COMPANY_EMAIL,
   address: {
     "@type": "PostalAddress",
@@ -105,6 +120,20 @@ const localBusinessSchema = {
     bestRating: "5",
     worstRating: "1",
   },
+  review: TESTIMONIALS.map((t) => ({
+    "@type": "Review",
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: String(t.rating),
+      bestRating: "5",
+    },
+    author: {
+      "@type": "Person",
+      name: t.name,
+    },
+    reviewBody: t.quote,
+    description: t.eventType,
+  })),
   sameAs: [
     COMPANY_INSTAGRAM,
     COMPANY_FACEBOOK,
@@ -123,7 +152,42 @@ const localBusinessSchema = {
     "AV & Stage Production",
   ],
   image: `${SITE_URL}/images/og-home.jpg`,
-  logo: `${SITE_URL}/images/logo.png`,
+  logo: {
+    "@type": "ImageObject",
+    url: `${SITE_URL}/images/logo.png`,
+    width: 200,
+    height: 200,
+  },
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: COMPANY_NAME,
+  url: SITE_URL,
+  description: "Premium event management company in Hyderabad — corporate events, weddings, product launches & more.",
+  inLanguage: "en-IN",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${SITE_URL}/our-work?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
+    { "@type": "ListItem", position: 3, name: "Our Work", item: `${SITE_URL}/our-work` },
+    { "@type": "ListItem", position: 4, name: "About", item: `${SITE_URL}/about` },
+    { "@type": "ListItem", position: 5, name: "Contact", item: `${SITE_URL}/contact` },
+  ],
 };
 
 const faqSchema = {
@@ -154,6 +218,14 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <script
         type="application/ld+json"
