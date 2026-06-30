@@ -66,9 +66,9 @@ const breadcrumbSchema = {
 
 // TODO: Replace with real founder name, photo, and personal message
 const FOUNDER = {
-  name: "Founder Name",
+  name: "Deepthi",
   title: "Founder & Creative Director",
-  image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&q=85&auto=format&fit=crop",
+  image: "/images/founder.png",
   words: [
     "I started La Grandè Events because I believed Hyderabad deserved better. Not just well-organised events — but events that people felt. That created memory. That made them lean over to the person next to them and say 'this is something special.'",
     "Every room we walk into, we ask ourselves one question: how do we want the last guest to feel when they walk out? That question has guided every decision we've made — from the vendors we choose to the details we refuse to skip.",
@@ -79,10 +79,10 @@ const FOUNDER = {
 // TODO: Replace with real team data and photos
 const TEAM = [
   {
-    name: "Founder Name",
+    name: "Deepthi",
     role: "Founder & Creative Director",
     bio: "The person who started it all. Obsessed with first impressions and final moments.",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=625&q=85&auto=format&fit=crop",
+    image: "/images/founder.png",
   },
   {
     name: "Team Member",
