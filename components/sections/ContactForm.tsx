@@ -24,6 +24,7 @@ const eventTypes = [
 
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const {
     register,
@@ -32,7 +33,18 @@ export default function ContactForm() {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    await new Promise((r) => setTimeout(r, 800));
+    setSubmitError(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("send failed");
+    } catch {
+      // Email failed — fall through to WhatsApp anyway so enquiry is never lost
+      setSubmitError(true);
+    }
 
     const waText = `Hello! I'd like to enquire about your event management services.%0A%0AName: ${data.name}%0APhone: ${data.phone}%0AEvent Type: ${data.eventType}${data.message ? `%0ADetails: ${data.message}` : ""}`;
     window.open(`https://wa.me/${COMPANY_WHATSAPP}?text=${waText}`, "_blank");
@@ -60,7 +72,9 @@ export default function ContactForm() {
             We&apos;ll be in touch soon.
           </h3>
           <p className="text-[#8A8A9A] text-sm font-light">
-            WhatsApp opened — expect a reply within 2 hours.
+            {submitError
+              ? "WhatsApp opened — our team will reply within 2 hours."
+              : "Your enquiry has been emailed to our team. WhatsApp is also open for a quick reply."}
           </p>
         </div>
       </div>
@@ -149,7 +163,7 @@ export default function ContactForm() {
           borderRadius: "100px",
         }}
       >
-        {isSubmitting ? "Opening WhatsApp…" : "Send Enquiry →"}
+        {isSubmitting ? "Sending Enquiry…" : "Send Enquiry →"}
       </button>
 
       <p className="text-center text-[#8A8A9A] text-xs font-light">
