@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getEvents, getEventBySlug } from "@/lib/events-store";
-import { WHATSAPP_URL } from "@/lib/constants";
+import { WHATSAPP_URL, SITE_URL, COMPANY_NAME } from "@/lib/constants";
 import GoldDivider from "@/components/ui/GoldDivider";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { ArrowLeft, ArrowRight, MapPin, Users, Calendar, Building2, Tag } from "lucide-react";
@@ -21,10 +21,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const event = await getEventBySlug(slug);
   if (!event) return { title: "Event Not Found" };
+  const description = event.excerpt || `${event.eventType} event managed by ${COMPANY_NAME} in ${event.location || "Hyderabad"}.`;
   return {
-    title: `${event.title} | La Grande Events`,
-    description: event.excerpt || `${event.eventType} by La Grande Events — ${event.location}`,
-    openGraph: event.coverImage ? { images: [{ url: event.coverImage }] } : undefined,
+    title: `${event.title} | ${COMPANY_NAME}`,
+    description,
+    openGraph: {
+      title: `${event.title} | ${COMPANY_NAME}`,
+      description,
+      url: `${SITE_URL}/our-work/${event.slug}`,
+      images: event.coverImage
+        ? [{ url: event.coverImage, width: 1200, height: 630, alt: `${event.title} — ${COMPANY_NAME}` }]
+        : [{ url: `${SITE_URL}/images/og-home.jpg`, width: 1200, height: 630, alt: `${COMPANY_NAME} — Premium Event Management Hyderabad` }],
+    },
+    alternates: {
+      canonical: `${SITE_URL}/our-work/${event.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 
@@ -51,6 +66,43 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
   const htmlContent = event.content ? `<p>${renderMarkdown(event.content)}</p>` : "";
 
+  const eventSchema = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.title,
+    description: event.excerpt || `${event.eventType} event managed by ${COMPANY_NAME}.`,
+    ...(event.date ? { startDate: event.date } : {}),
+    ...(event.coverImage ? { image: event.coverImage } : {}),
+    location: {
+      "@type": "Place",
+      name: event.location || "Hyderabad",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Hyderabad",
+        addressRegion: "Telangana",
+        addressCountry: "IN",
+      },
+    },
+    organizer: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#localbusiness`,
+      name: COMPANY_NAME,
+      url: SITE_URL,
+    },
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Our Work", item: `${SITE_URL}/our-work` },
+      { "@type": "ListItem", position: 3, name: event.title, item: `${SITE_URL}/our-work/${event.slug}` },
+    ],
+  };
+
   const metaItems = [
     event.date && { icon: <Calendar size={14} color="#C9A96E" />, label: "Date", value: new Date(event.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) },
     event.location && { icon: <MapPin size={14} color="#C9A96E" />, label: "Location", value: event.location },
@@ -60,7 +112,15 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
   ].filter(Boolean) as { icon: React.ReactNode; label: string; value: string }[];
 
   return (
-    <main style={{ minHeight: "100vh", background: "#050510" }}>
+    <div style={{ minHeight: "100vh", background: "#050510" }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
 
       {/* ── HERO ── */}
       <div style={{ position: "relative", height: "60vh", minHeight: "420px", maxHeight: "640px" }}>
@@ -195,6 +255,6 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

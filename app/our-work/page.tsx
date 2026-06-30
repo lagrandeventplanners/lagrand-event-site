@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getEvents } from "@/lib/events-store";
-import { WHATSAPP_URL } from "@/lib/constants";
+import { WHATSAPP_URL, SITE_URL } from "@/lib/constants";
 import WorkGrid from "@/components/sections/WorkGrid";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     images: [{ url: "/images/og-home.jpg", width: 1200, height: 630 }],
   },
   alternates: {
-    canonical: "https://www.lagrandeinc.com/our-work",
+    canonical: `${SITE_URL}/our-work`,
   },
 };
 
@@ -33,8 +33,8 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home",     item: "https://www.lagrandeinc.com" },
-    { "@type": "ListItem", position: 2, name: "Our Work", item: "https://www.lagrandeinc.com/our-work" },
+    { "@type": "ListItem", position: 1, name: "Home",     item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: "Our Work", item: `${SITE_URL}/our-work` },
   ],
 };
 
@@ -51,7 +51,7 @@ export default async function OurWorkPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-    <main style={{ minHeight: "100vh", background: "#050510", paddingTop: "80px" }}>
+    <div style={{ minHeight: "100vh", background: "#050510", paddingTop: "80px" }}>
 
       {/* Header */}
       <section style={{ paddingTop: "4rem", paddingBottom: "2rem" }}>
@@ -224,7 +224,7 @@ export default async function OurWorkPage() {
         </div>
       </section>
 
-    </main>
+    </div>
     </>
   );
 }

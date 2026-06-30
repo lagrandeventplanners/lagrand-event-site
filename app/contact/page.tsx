@@ -10,6 +10,7 @@ import {
   COMPANY_EMAIL,
   COMPANY_ADDRESS,
   WHATSAPP_URL,
+  SITE_URL,
 } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     images: [{ url: "/images/og-home.jpg", width: 1200, height: 630 }],
   },
   alternates: {
-    canonical: "https://www.lagrandeinc.com/contact",
+    canonical: `${SITE_URL}/contact`,
   },
 };
 
@@ -37,10 +38,10 @@ const contactSchema = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   name: `Contact ${COMPANY_NAME}`,
-  url: "https://www.lagrandeinc.com/contact",
+  url: `${SITE_URL}/contact`,
   mainEntity: {
     "@type": "LocalBusiness",
-    "@id": "https://www.lagrandeinc.com/#localbusiness",
+    "@id": `${SITE_URL}/#localbusiness`,
     name: COMPANY_NAME,
     telephone: COMPANY_PHONE,
     email: COMPANY_EMAIL,
@@ -71,8 +72,8 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home",       item: "https://www.lagrandeinc.com" },
-    { "@type": "ListItem", position: 2, name: "Contact Us", item: "https://www.lagrandeinc.com/contact" },
+    { "@type": "ListItem", position: 1, name: "Home",       item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: "Contact Us", item: `${SITE_URL}/contact` },
   ],
 };
 

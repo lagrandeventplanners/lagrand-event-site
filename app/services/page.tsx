@@ -6,7 +6,7 @@ import SectionReveal from "@/components/ui/SectionReveal";
 import GoldDivider from "@/components/ui/GoldDivider";
 import StatCounter from "@/components/ui/StatCounter";
 import ProcessSection from "@/components/sections/ProcessSection";
-import { COMPANY_NAME, SERVICES, COMPANY_WHATSAPP, STATS } from "@/lib/constants";
+import { COMPANY_NAME, SERVICES, COMPANY_WHATSAPP, STATS, SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: `Event Management Services in Hyderabad | Corporate, Wedding & More | ${COMPANY_NAME}`,
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     images: [{ url: "/images/og-home.jpg", width: 1200, height: 630 }],
   },
   alternates: {
-    canonical: "https://www.lagrandeinc.com/services",
+    canonical: `${SITE_URL}/services`,
   },
 };
 
@@ -51,7 +51,7 @@ const serviceSchema = {
       provider: {
         "@type": "LocalBusiness",
         name: COMPANY_NAME,
-        url: "https://www.lagrandeinc.com",
+        url: SITE_URL,
       },
     },
   })),
@@ -61,8 +61,8 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home",     item: "https://www.lagrandeinc.com" },
-    { "@type": "ListItem", position: 2, name: "Services", item: "https://www.lagrandeinc.com/services" },
+    { "@type": "ListItem", position: 1, name: "Home",     item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
   ],
 };
 
@@ -296,7 +296,7 @@ export default function ServicesPage() {
                       >
                         {iconMap[service.icon]}
                       </div>
-                      <h2
+                      <h3
                         style={{
                           fontFamily: "var(--font-display)",
                           fontSize: "clamp(1.35rem, 2.5vw, 1.7rem)",
@@ -307,7 +307,7 @@ export default function ServicesPage() {
                         }}
                       >
                         {service.title}
-                      </h2>
+                      </h3>
                     </div>
                   </div>
 

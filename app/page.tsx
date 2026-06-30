@@ -28,6 +28,7 @@ import {
   FAQS,
   WHATSAPP_URL,
   COMPANY_WHATSAPP,
+  GOOGLE_REVIEWS_LINK,
 } from "@/lib/constants";
 import { getEvents, type EventPost } from "@/lib/events-store";
 
@@ -340,7 +341,7 @@ export default async function HomePage() {
                   <div style={{ position: "relative", aspectRatio: "4/3.8", overflow: "hidden" }}>
                     <Image
                       src={type.image}
-                      alt={type.title}
+                      alt={`${type.title} — event management services in Hyderabad by ${COMPANY_NAME}`}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-108"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -742,14 +743,16 @@ export default async function HomePage() {
 
           <SectionReveal delay={0.4} className="mt-10 text-center">
             <a
-              href="#"
+              href={GOOGLE_REVIEWS_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-6 py-3 transition-all duration-300"
               style={{ background: "rgba(201,169,110,0.1)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(201,169,110,0.3)", borderRadius: "100px", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)" }}
             >
               <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="#C9A96E" className="text-champagne" />)}
               </div>
-              <span className="text-ivory text-sm font-light">Rated 5 Stars on Google</span>
+              <span className="text-ivory text-sm font-light">Rated 4.9 Stars on Google</span>
             </a>
           </SectionReveal>
         </div>
