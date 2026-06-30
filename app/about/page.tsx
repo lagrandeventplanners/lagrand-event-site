@@ -79,10 +79,10 @@ const FOUNDER = {
 // TODO: Replace with real team data and photos
 const TEAM = [
   {
-    name: "Deepthi",
-    role: "Founder & Creative Director",
+    name: "Jay",
+    role: "Co-Founder",
     bio: "The person who started it all. Obsessed with first impressions and final moments.",
-    image: "/images/founder.png",
+    image: "/images/co-founder.jpg",
   },
   {
     name: "Team Member",
