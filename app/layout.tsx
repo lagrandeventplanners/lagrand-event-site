@@ -10,7 +10,6 @@ import {
   COMPANY_NAME,
   SITE_URL,
   GOOGLE_TAG_MANAGER_ID,
-  GOOGLE_ANALYTICS_ID,
   GOOGLE_SEARCH_CONSOLE_ID,
   COMPANY_PHONE,
   COMPANY_EMAIL,
@@ -124,30 +123,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }}
       />
 
-      {/* Google Analytics 4 — direct integration (fires independently of GTM) */}
-      {GOOGLE_ANALYTICS_ID && (
-        <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
-            strategy="afterInteractive"
-          />
-          <Script
-            id="ga4-init"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GOOGLE_ANALYTICS_ID}', {
-                  page_path: window.location.pathname,
-                  send_page_view: true
-                });
-              `,
-            }}
-          />
-        </>
-      )}
       <body className="min-h-screen flex flex-col">
         {/* Google Tag Manager — body noscript fallback */}
         <noscript

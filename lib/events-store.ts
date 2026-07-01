@@ -57,6 +57,12 @@ export async function saveAllEvents(events: EventPost[]): Promise<void> {
   await fs.writeFile(DATA_FILE, JSON.stringify(events, null, 2));
 }
 
+export async function getAllTags(): Promise<string[]> {
+  const events = await getEvents();
+  const tagSet = new Set<string>(events.flatMap((e) => e.tags));
+  return Array.from(tagSet).sort();
+}
+
 export async function deleteEvent(id: string): Promise<void> {
   const events = await getEvents();
   await fs.writeFile(

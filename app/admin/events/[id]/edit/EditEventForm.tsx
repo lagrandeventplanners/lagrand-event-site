@@ -19,7 +19,13 @@ function slugify(str: string) {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-export default function EditEventForm({ event }: { event: EventPost }) {
+const DEFAULT_SUGGESTIONS = [
+  "Hyderabad", "Premium", "Outdoor", "Indoor", "Luxury", "400+ Guests",
+  "Theme Event", "Gala", "Corporate", "Destination",
+];
+
+export default function EditEventForm({ event, suggestedTags = [] }: { event: EventPost; suggestedTags?: string[] }) {
+  const allSuggestions = [...new Set([...DEFAULT_SUGGESTIONS, ...suggestedTags])].sort();
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -273,7 +279,7 @@ export default function EditEventForm({ event }: { event: EventPost }) {
             </div>
 
             <div style={sectionCard}>
-              <label style={labelStyle}><Tag size={12} /> Tags</label>
+              <label style={{ ...labelStyle, marginBottom: "0.75rem" }}><Tag size={12} /> Tags</label>
               {tags.length > 0 && (
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "0.75rem" }}>
                   {tags.map((t) => (
@@ -283,10 +289,23 @@ export default function EditEventForm({ event }: { event: EventPost }) {
                   ))}
                 </div>
               )}
-              <div style={{ display: "flex", gap: "0.4rem" }}>
+              <div style={{ display: "flex", gap: "0.4rem", marginBottom: "0.75rem" }}>
                 <input type="text" value={tagInput} onChange={(e) => setTagInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addTag(); } }} placeholder="Add tag, press Enter" style={{ ...inputStyle, padding: "0.5rem 0.75rem", fontSize: "0.8rem", flex: 1 }} />
                 <button type="button" onClick={addTag} style={{ background: "rgba(201,169,110,0.15)", border: "1px solid rgba(201,169,110,0.3)", color: "#C9A96E", padding: "0.5rem 0.75rem", borderRadius: "8px", cursor: "pointer" }}><Plus size={14} /></button>
               </div>
+              {allSuggestions.filter(s => !tags.includes(s)).length > 0 && (
+                <>
+                  <p style={{ fontSize: "0.6rem", color: "rgba(245,240,232,0.2)", fontFamily: "var(--font-body)", margin: "0 0 0.4rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>Quick add</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem" }}>
+                    {allSuggestions.filter(s => !tags.includes(s)).map(s => (
+                      <button key={s} type="button" onClick={() => { if (!tags.includes(s)) setTags(prev => [...prev, s]); }}
+                        style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(245,240,232,0.35)", borderRadius: "100px", padding: "0.18rem 0.55rem", fontFamily: "var(--font-body)", fontSize: "0.62rem", cursor: "pointer" }}>
+                        + {s}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const NOTIFY_TO = "hello@lagrandeevents.in";
+const NOTIFY_TO = ["hello@lagrandeevents.in", "heynaik8@gmail.com"];
 const FROM = "La Grandè Events <enquiries@lagrandeinc.com>";
 
 export async function POST(req: NextRequest) {
